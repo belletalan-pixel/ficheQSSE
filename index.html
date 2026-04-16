@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche QSSE — Déclaration d'événement</title>
+<style>
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; font-size: 13px; color: #1a1a1a; background: #f0f4f8; }
+
+/* ── PAGE WRAPPER ── */
+.page {
+  width: 210mm;
+  margin: 20px auto;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,.15);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* ── HEADER ── */
+.doc-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  background: #d6e4f0;
+  border-bottom: 3px solid #1f5c99;
+}
+.doc-header .title { padding: 10px 14px; }
+.doc-header .title h1 { font-size: 15px; color: #1f5c99; font-weight: 700; }
+.doc-header .title p  { font-size: 11px; color: #595959; margin-top: 2px; }
+.doc-header .meta { padding: 10px 14px; text-align: center; border-left: 2px solid #1f5c99; background:#f2f2f2; font-size:11px; color:#595959; display:flex; align-items:center; justify-content:center; }
+
+/* ── SECTION TITLE ── */
+.section-title {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 14px;
+  font-weight: 700; font-size: 13px; color: #fff;
+  margin-top: 0;
+}
+.section-title.blue   { background: #1f5c99; }
+.section-title.orange { background: #e07b00; }
+.section-title.red    { background: #c0392b; }
+.section-title.dark   { background: #595959; }
+.section-title.green  { background: #1a7a4a; }
+
+/* ── CONTENT AREA ── */
+.content { padding: 10px 14px; }
+
+/* ── TYPE D'ÉVÉNEMENT ── */
+.event-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  border: 2px solid #d9d9d9;
+}
+.event-col { padding: 8px 10px; }
+.event-col + .event-col { border-left: 2px solid #d9d9d9; }
+.event-col .col-header {
+  font-weight: 700; font-size: 12px;
+  padding: 5px 8px; margin: -8px -10px 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.col-header.orange { background: #fef0e0; color: #e07b00; border-bottom: 1px solid #e07b00; }
+.col-header.blue   { background: #d6e4f0; color: #1f5c99; border-bottom: 1px solid #1f5c99; }
+.col-header.violet { background: #ede0f7; color: #6b3fa0; border-bottom: 1px solid #6b3fa0; }
+
+.cb-label {
+  display: flex; align-items: center; gap: 7px;
+  padding: 4px 0; cursor: pointer; font-size: 13px;
+  border-radius: 3px; transition: background .15s;
+}
+.cb-label:hover { background: #f5f5f5; }
+.cb-label input[type=checkbox] {
+  width: 16px; height: 16px; accent-color: #1f5c99; flex-shrink: 0; cursor: pointer;
+}
+.cb-label.accident input { accent-color: #c0392b; }
+.cb-label.nc     input  { accent-color: #1f5c99; }
+.cb-label.client input  { accent-color: #6b3fa0; }
+input[type=text], input[type=date], input[type=time], textarea, select {
+  width: 100%; border: none; border-bottom: 1.5px solid #d9d9d9;
+  font: inherit; font-size: 13px; color: #1a1a1a;
+  background: transparent; padding: 3px 2px; outline: none;
+  transition: border-color .2s;
+}
+input:focus, textarea:focus { border-bottom-color: #1f5c99; }
+textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; border-radius: 3px; padding: 6px; }
+
+/* ── GRID FIELDS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; }
+.field { padding: 6px 10px; border: 1px solid #d9d9d9; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: #1f5c99; margin-bottom: 3px; }
+
+/* ── DESCRIPTION ZONE ── */
+.desc-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 0; border: 2px solid #d9d9d9; }
+.desc-main { padding: 8px; border-right: 2px solid #c0392b; }
+.desc-main label { font-weight: 700; font-size: 12px; color: #e07b00; display: block; margin-bottom: 5px; }
+.desc-accident { padding: 8px; background: #fae5e3; }
+.desc-accident h4 { color: #c0392b; font-size: 12px; margin-bottom: 8px; }
+.desc-accident .field { background: transparent; border-color: #c0392b44; }
+.desc-accident .field label { color: #c0392b; }
+
+/* ── RISQUES ── */
+.risques-box { border: 1px solid #d9d9d9; padding: 8px; margin-top: 0; }
+.risques-box label { font-weight: 700; font-size: 12px; color: #e07b00; display: block; margin-bottom: 5px; }
+
+/* ── GRAVITY MATRIX ── */
+.matrix-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.matrix-table th, .matrix-table td { border: 1px solid #d9d9d9; padding: 4px 6px; }
+.matrix-table thead th { background: #fae5e3; color: #c0392b; font-weight: 700; text-align: center; }
+.matrix-table thead th:first-child { text-align: left; }
+.matrix-table tbody tr:nth-child(even) { background: #f8f8f8; }
+.matrix-table .occ-col { text-align: center; width: 52px; }
+.badge { display: inline-block; padding: 1px 6px; border-radius: 10px; font-weight: 700; font-size: 11px; }
+.badge-S  { background: #fae5e3; color: #c0392b; }
+.badge-PS { background: #fef0e0; color: #e07b00; }
+.badge-M  { background: #d8f0e3; color: #1a7a4a; }
+.matrix-table td label.cb-label { gap: 5px; font-size: 11.5px; }
+.matrix-legende { background: #fff3cd; padding: 6px 10px; font-size: 11.5px; border: 1px solid #e6ac00; margin-top: 0; }
+
+/* ── 6M ── */
+.causes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid #d9d9d9; }
+.cause-col { padding: 8px; }
+.cause-col + .cause-col { border-left: 1px solid #d9d9d9; }
+.cause-col h4 { color: #c0392b; font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.m6-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 0; }
+.cause-col textarea { margin-top: 6px; min-height: 40px; }
+
+/* ── PLAN D'ACTIONS ── */
+.actions-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.actions-table th { background: #d6e4f0; color: #1f5c99; font-weight: 700; padding: 5px 7px; border: 1px solid #1f5c99; text-align: left; }
+.actions-table td { border: 1px solid #d9d9d9; padding: 4px 6px; vertical-align: top; }
+.actions-table tr:nth-child(even) td { background: #f8f8f8; }
+.actions-table select { font-size: 12px; }
+.actions-table input { font-size: 12px; }
+.type-select, .statut-select { border: 1px solid #d9d9d9; border-radius: 3px; padding: 2px 4px; width: 100%; font: inherit; font-size: 12px; background: transparent; cursor: pointer; }
+.type-select:focus, .statut-select:focus { outline: 2px solid #1f5c99; }
+
+/* ── SIGNATURES ── */
+.signatures { padding: 8px 14px; font-size: 11.5px; color: #595959; font-style: italic; text-align: center; border-top: 1px solid #d9d9d9; background: #f9f9f9; }
+
+/* ── TOOLBAR ── */
+.toolbar {
+  position: fixed; bottom: 20px; right: 20px;
+  display: flex; flex-direction: column; gap: 8px; z-index: 100;
+}
+.btn {
+  padding: 9px 18px; border: none; border-radius: 24px;
+  font: bold 13px Arial; cursor: pointer; display: flex; align-items: center; gap: 7px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.2); transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,.25); }
+.btn-print { background: #1f5c99; color: #fff; }
+.btn-reset { background: #e07b00; color: #fff; }
+.btn-save  { background: #1a7a4a; color: #fff; }
+
+/* ── REX BADGE ── */
+.rex-toggle { display: flex; gap: 14px; align-items: center; }
+.rex-toggle span { font-size: 13px; }
+.toggle-btn {
+  padding: 4px 16px; border-radius: 20px; border: 2px solid #d9d9d9;
+  background: #f2f2f2; font: bold 12px Arial; cursor: pointer; transition: all .15s;
+}
+.toggle-btn.active-oui { background: #d8f0e3; border-color: #1a7a4a; color: #1a7a4a; }
+.toggle-btn.active-non { background: #fae5e3; border-color: #c0392b; color: #c0392b; }
+
+/* ── PRINT ── */
+@media print {
+  body { background: #fff; }
+  .page { box-shadow: none; margin: 0; border-radius: 0; }
+  .toolbar { display: none; }
+  textarea { border: 1px solid #d9d9d9 !important; }
+  input { border-bottom: 1px solid #d9d9d9 !important; }
+  @page { margin: 10mm; size: A4; }
+}
+
+/* ── SEPARATOR ── */
+.sep { height: 6px; }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+  <button class="btn btn-save"  onclick="saveData()">💾 Sauvegarder</button>
+  <button class="btn btn-reset" onclick="resetForm()">🗑️ Effacer</button>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="title">
+      <h1>📋 FICHE QSSE — Déclaration d'événement</h1>
+      <p>Accident · Incident · Non-conformité · Proposition d'amélioration · Retour client</p>
+    </div>
+    <div class="meta">Réf. P024-A01-21<br>Rév. 21</div>
+    <div class="meta">MASE<br>ISO 9001</div>
+  </div>
+
+  <!-- ═══ 1. TYPE D'ÉVÉNEMENT ═══ -->
+  <div class="section-title blue">🏷️ TYPE D'ÉVÉNEMENT — Cocher la ou les case(s) correspondante(s)</div>
+  <div class="content" style="padding:0">
+    <div class="event-types">
+
+      <div class="event-col">
+        <div class="col-header orange">🔶 ÉVÉNEMENT TERRAIN</div>
+        <label class="cb-label accident"><input type="checkbox" id="t-accident"> Accident</label>
+        <label class="cb-label accident"><input type="checkbox"> Incident / Presque-accident</label>
+        <label class="cb-label accident"><input type="checkbox"> Situation ou acte dangereux</label>
+        <label class="cb-label accident"><input type="checkbox"> Proposition d'amélioration</label>
+      </div>
+
+      <div class="event-col">
+        <div class="col-header blue">🔵 ANOMALIE / NON-CONFORMITÉ</div>
+        <label class="cb-label nc"><input type="checkbox"> NC Sécurité</label>
+        <label class="cb-label nc"><input type="checkbox"> NC Qualité</label>
+        <label class="cb-label nc"><input type="checkbox"> NC Santé</label>
+        <label class="cb-label nc"><input type="checkbox"> NC Environnement</label>
+      </div>
+
+      <div class="event-col">
+        <div class="col-header violet">📦 CLIENT / LIVRAISON</div>
+        <label class="cb-label client"><input type="checkbox"> Retour client positif</label>
+        <label class="cb-label client"><input type="checkbox"> Retour client négatif</label>
+        <label class="cb-label client"><input type="checkbox"> Livraison non conforme</label>
+        <label class="cb-label client"><input type="checkbox"> Livraison en retard</label>
+        <label class="cb-label client"><input type="checkbox"> Autre : <input type="text" style="width:90px;display:inline;border-bottom:1px solid #ccc"></label>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ 2. IDENTIFICATION ═══ -->
+  <div class="sep"></div>
+  <div class="section-title dark">📋 IDENTIFICATION</div>
+  <div class="content" style="padding:0">
+    <div class="grid-4">
+      <div class="field" style="background:#d6e4f0">
+        <label>👤 Déclarant</label>
+        <input type="text" placeholder="Nom Prénom">
+      </div>
+      <div class="field" style="background:#d6e4f0">
+        <label>📍 Lieu de l'événement</label>
+        <input type="text" placeholder="Chantier / adresse">
+      </div>
+      <div class="field" style="background:#d6e4f0">
+        <label>📅 Date &amp; Heure</label>
+        <input type="date"> <input type="time" style="margin-top:3px">
+      </div>
+      <div class="field" style="background:#d6e4f0">
+        <label>📄 N° Devis</label>
+        <input type="text" placeholder="N° devis si applicable">
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>👀 Témoin(s) éventuel(s)</label>
+        <input type="text" placeholder="Noms des témoins">
+      </div>
+      <div class="field">
+        <label>🔧 Responsable chantier</label>
+        <input type="text" placeholder="Nom du responsable">
+      </div>
+      <div class="field">
+        <label>🔄 Retour d'expérience souhaité ?</label>
+        <div class="rex-toggle" style="margin-top:5px">
+          <span>REX :</span>
+          <button class="toggle-btn" id="rex-oui" onclick="toggleRex('oui')">OUI</button>
+          <button class="toggle-btn" id="rex-non" onclick="toggleRex('non')">NON</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 3. DESCRIPTION ═══ -->
+  <div class="sep"></div>
+  <div class="section-title orange">📝 DESCRIPTION DE L'ÉVÉNEMENT</div>
+  <div class="content" style="padding:6px 14px">
+    <div class="desc-grid">
+      <div class="desc-main">
+        <label>Description (explications, contexte, schéma simple…)</label>
+        <textarea id="desc-text" rows="7" placeholder="Décrire les faits de manière objective : quoi, où, quand, comment…"></textarea>
+      </div>
+      <div class="desc-accident" id="accident-block" style="display:none">
+        <h4>⚠️ SI ACCIDENT — Compléter :</h4>
+        <div class="field" style="background:transparent; border-color:#c0392b44">
+          <label>Nom de la victime</label>
+          <input type="text" placeholder="">
+        </div>
+        <div class="sep" style="height:4px"></div>
+        <div class="field" style="background:transparent; border-color:#c0392b44">
+          <label>Nature des lésions</label>
+          <input type="text" placeholder="Ex. : fracture, coupure…">
+        </div>
+        <div class="sep" style="height:4px"></div>
+        <div class="field" style="background:transparent; border-color:#c0392b44">
+          <label>Siège des lésions</label>
+          <input type="text" placeholder="Ex. : main droite, genou…">
+        </div>
+      </div>
+      <div class="desc-accident" id="no-accident-block">
+        <h4 style="color:#595959; font-size:11px; font-style:italic">Le bloc "Accident" s'affiche si la case Accident est cochée.</h4>
+      </div>
+    </div>
+    <div class="risques-box" style="border-top:none">
+      <label>⚡ Risques induits / conséquences potentielles</label>
+      <textarea rows="2" placeholder="Décrire les risques ou dommages potentiels induits par cet événement…"></textarea>
+    </div>
+  </div>
+
+  <!-- ═══ 4. ANALYSE DES CAUSES ═══ -->
+  <div class="sep"></div>
+  <div class="section-title red">🔬 ANALYSE DES CAUSES — Réservé responsable QSSE</div>
+  <div class="content">
+
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:28%">GRAVITÉ</th>
+          <th>QUALITÉ</th>
+          <th>SÉCURITÉ</th>
+          <th>SANTÉ</th>
+          <th class="occ-col">PEU<br>PROB.</th>
+          <th class="occ-col">POSS.</th>
+          <th class="occ-col">CERT.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><label class="cb-label"><input type="checkbox"> Catastrophique (décès, irréversible)</label></td>
+          <td>Décès / IPT</td>
+          <td>Décès / IPT / Maladie chronique</td>
+          <td>Irréversible</td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+        </tr>
+        <tr>
+          <td><label class="cb-label"><input type="checkbox"> Grave (arrêt > 3 mois / IPP)</label></td>
+          <td>Arrêt > 3 mois / IPP</td>
+          <td>Arrêt > 3 mois / IPP</td>
+          <td>Conséquences durables</td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+        </tr>
+        <tr>
+          <td><label class="cb-label"><input type="checkbox"> Significatif (arrêt &lt; 3 mois)</label></td>
+          <td>Arrêt &lt; 3 mois</td>
+          <td>Maladie, arrêt &lt; 3 mois</td>
+          <td>Conséquences temporaires</td>
+          <td class="occ-col"><span class="badge badge-PS">PS</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+          <td class="occ-col"><span class="badge badge-S">S</span></td>
+        </tr>
+        <tr>
+          <td><label class="cb-label"><input type="checkbox"> Mineur (premiers soins)</label></td>
+          <td>Premiers soins</td>
+          <td>Premiers soins</td>
+          <td>Rejet sans conséquence</td>
+          <td class="occ-col"><span class="badge badge-M">M</span></td>
+          <td class="occ-col"><span class="badge badge-PS">PS</span></td>
+          <td class="occ-col"><span class="badge badge-PS">PS</span></td>
+        </tr>
+        <tr>
+          <td><label class="cb-label"><input type="checkbox"> Négligeable (gêne passagère)</label></td>
+          <td>Gêne passagère</td>
+          <td>Gêne passagère</td>
+          <td>Pas de rejet notable</td>
+          <td class="occ-col"><span class="badge badge-M">M</span></td>
+          <td class="occ-col"><span class="badge badge-M">M</span></td>
+          <td class="occ-col"><span class="badge badge-PS">PS</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="matrix-legende">
+      <strong>Légende :</strong>
+      <span class="badge badge-S">S</span> Sérieux &nbsp;|&nbsp;
+      <span class="badge badge-PS">PS</span> Peu Sérieux &nbsp;|&nbsp;
+      <span class="badge badge-M">M</span> Mineur &nbsp;&nbsp;→&nbsp;&nbsp;
+      Si classé <strong>S</strong> : arbre des causes obligatoire en annexe.
+    </div>
+
+    <div class="sep"></div>
+    <div class="causes-grid" style="margin-top:8px">
+      <div class="cause-col">
+        <h4>CAUSE N°1 — Méthode des 6M</h4>
+        <div class="m6-grid">
+          <label class="cb-label"><input type="checkbox"> Méthode</label>
+          <label class="cb-label"><input type="checkbox"> Milieu</label>
+          <label class="cb-label"><input type="checkbox"> Moyens</label>
+          <label class="cb-label"><input type="checkbox"> Main d'œuvre</label>
+          <label class="cb-label"><input type="checkbox"> Matériel</label>
+          <label class="cb-label"><input type="checkbox"> Matière</label>
+        </div>
+        <textarea rows="2" placeholder="Détail de la cause…"></textarea>
+      </div>
+      <div class="cause-col">
+        <h4>CAUSE N°2 — Méthode des 6M</h4>
+        <div class="m6-grid">
+          <label class="cb-label"><input type="checkbox"> Méthode</label>
+          <label class="cb-label"><input type="checkbox"> Milieu</label>
+          <label class="cb-label"><input type="checkbox"> Moyens</label>
+          <label class="cb-label"><input type="checkbox"> Main d'œuvre</label>
+          <label class="cb-label"><input type="checkbox"> Matériel</label>
+          <label class="cb-label"><input type="checkbox"> Matière</label>
+        </div>
+        <textarea rows="2" placeholder="Détail de la cause…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ 5. PLAN D'ACTIONS ═══ -->
+  <div class="sep"></div>
+  <div class="section-title blue">📌 PLAN D'ACTIONS — Réservé responsable QSSE</div>
+  <div class="content">
+    <table class="actions-table">
+      <thead>
+        <tr>
+          <th style="width:28px">N°</th>
+          <th>Description de l'action</th>
+          <th style="width:110px">Type</th>
+          <th style="width:110px">Responsable</th>
+          <th style="width:90px">Délai</th>
+          <th style="width:90px">Statut</th>
+        </tr>
+      </thead>
+      <tbody id="actions-body">
+      </tbody>
+    </table>
+    <button onclick="addAction()" style="margin-top:6px; padding:4px 12px; background:#d6e4f0; border:1px solid #1f5c99; border-radius:3px; font-size:12px; cursor:pointer; color:#1f5c99; font-weight:700">+ Ajouter une action</button>
+  </div>
+
+  <!-- SIGNATURES -->
+  <div class="signatures">
+    Signature du déclarant : _______________________&emsp;&emsp;
+    Visa responsable QSSE : _______________________&emsp;&emsp;
+    Date de traitement : _______________
+  </div>
+
+</div><!-- end .page -->
+
+<script>
+// ─── Accident block toggle ─────────────────────────────────────────────────
+document.getElementById('t-accident').addEventListener('change', function() {
+  document.getElementById('accident-block').style.display    = this.checked ? '' : 'none';
+  document.getElementById('no-accident-block').style.display = this.checked ? 'none' : '';
+});
+
+// ─── REX toggle ───────────────────────────────────────────────────────────
+let rexVal = null;
+function toggleRex(v) {
+  rexVal = rexVal === v ? null : v;
+  document.getElementById('rex-oui').className = 'toggle-btn' + (rexVal==='oui' ? ' active-oui' : '');
+  document.getElementById('rex-non').className = 'toggle-btn' + (rexVal==='non' ? ' active-non' : '');
+}
+
+// ─── Actions table ─────────────────────────────────────────────────────────
+let actionCount = 0;
+function addAction() {
+  actionCount++;
+  const n = actionCount;
+  const tbody = document.getElementById('actions-body');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="text-align:center;font-weight:700">${n}</td>
+    <td><input type="text" placeholder="Description de l'action corrective ou préventive…"></td>
+    <td>
+      <select class="type-select">
+        <option value="">— Type —</option>
+        <option>Correction immédiate</option>
+        <option>Action préventive</option>
+        <option>Action corrective</option>
+      </select>
+    </td>
+    <td><input type="text" placeholder="Nom"></td>
+    <td><input type="date"></td>
+    <td>
+      <select class="statut-select">
+        <option value="">— Statut —</option>
+        <option>🔴 Ouvert</option>
+        <option>🟡 En cours</option>
+        <option>🟢 Clôturé</option>
+      </select>
+    </td>`;
+  tbody.appendChild(tr);
+}
+// Init with 3 rows
+addAction(); addAction(); addAction();
+
+// ─── Save to localStorage ──────────────────────────────────────────────────
+function saveData() {
+  const data = {};
+  document.querySelectorAll('input, textarea, select').forEach((el, i) => {
+    if (el.type === 'checkbox') data['cb_'+i] = el.checked;
+    else data['el_'+i] = el.value;
+  });
+  data['rex'] = rexVal;
+  localStorage.setItem('fiche_qsse', JSON.stringify(data));
+  const btn = document.querySelector('.btn-save');
+  btn.textContent = '✅ Sauvegardé !';
+  setTimeout(() => btn.innerHTML = '💾 Sauvegarder', 2000);
+}
+
+function resetForm() {
+  if (!confirm('Effacer toutes les données saisies ?')) return;
+  document.querySelectorAll('input[type=text], input[type=date], input[type=time], textarea').forEach(el => el.value = '');
+  document.querySelectorAll('input[type=checkbox]').forEach(el => el.checked = false);
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  rexVal = null;
+  document.getElementById('rex-oui').className = 'toggle-btn';
+  document.getElementById('rex-non').className = 'toggle-btn';
+  document.getElementById('accident-block').style.display = 'none';
+  document.getElementById('no-accident-block').style.display = '';
+  localStorage.removeItem('fiche_qsse');
+}
+
+// ─── Restore on load ───────────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('fiche_qsse');
+  if (!saved) return;
+  const data = JSON.parse(saved);
+  const els = document.querySelectorAll('input, textarea, select');
+  els.forEach((el, i) => {
+    if (el.type === 'checkbox' && data['cb_'+i] !== undefined) el.checked = data['cb_'+i];
+    else if (data['el_'+i] !== undefined) el.value = data['el_'+i];
+  });
+  if (data.rex) toggleRex(data.rex);
+  if (document.getElementById('t-accident')?.checked) {
+    document.getElementById('accident-block').style.display = '';
+    document.getElementById('no-accident-block').style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>
