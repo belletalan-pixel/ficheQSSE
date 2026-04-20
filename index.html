@@ -294,17 +294,17 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
         <h4>⚠️ SI ACCIDENT — Compléter :</h4>
         <div class="field" style="background:transparent; border-color:#c0392b44">
           <label>Nom de la victime</label>
-          <input type="text" placeholder="">
+          <input type="text" value="-">
         </div>
         <div class="sep" style="height:4px"></div>
         <div class="field" style="background:transparent; border-color:#c0392b44">
           <label>Nature des lésions</label>
-          <input type="text" placeholder="Ex. : fracture, coupure…">
+          <input type="text" value="-">
         </div>
         <div class="sep" style="height:4px"></div>
         <div class="field" style="background:transparent; border-color:#c0392b44">
           <label>Siège des lésions</label>
-          <input type="text" placeholder="Ex. : main droite, genou…">
+          <input type="text" value="-">
         </div>
       </div>
       <div class="desc-accident" id="no-accident-block">
@@ -324,6 +324,10 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
 
     <table class="matrix-table">
       <thead>
+        <tr>
+          <th colspan="4" style="text-align:center; background:#fef0e0; color:#e07b00; border-bottom:none;">Gravité potentielle ou avérée</th>
+          <th colspan="3" style="text-align:center; background:#d6e4f0; color:#1f5c99; border-bottom:none;">Probabilité d'occurrence</th>
+        </tr>
         <tr>
           <th style="width:28%">QUALITÉ</th>
           <th>SÉCURITÉ</th>
@@ -461,10 +465,10 @@ function addAction() {
   const tbody = document.getElementById('actions-body');
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td><input type="text" placeholder=""></td>
-    <td><input type="text" placeholder=""></td>
-    <td><input type="text" placeholder=""></td>
-    <td><input type="text" placeholder=""></td>`;
+    <td><input type="text" value="-"></td>
+    <td><input type="text" value="-"></td>
+    <td><input type="text" value="-"></td>
+    <td><input type="text" value="-"></td>`;
   tbody.appendChild(tr);
 }
 // Init with 3 rows
