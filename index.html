@@ -424,12 +424,10 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
     <table class="actions-table">
       <thead>
         <tr>
-          <th style="width:28px">N°</th>
           <th>Description de l'action</th>
           <th style="width:110px">Type</th>
           <th style="width:110px">Responsable</th>
           <th style="width:90px">Délai</th>
-          <th style="width:90px">Statut</th>
         </tr>
       </thead>
       <tbody id="actions-body">
@@ -463,26 +461,10 @@ function addAction() {
   const tbody = document.getElementById('actions-body');
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td style="text-align:center;font-weight:700">${n}</td>
-    <td><input type="text" placeholder="Description de l'action corrective ou préventive…"></td>
-    <td>
-      <select class="type-select">
-        <option value="">— Type —</option>
-        <option>Correction immédiate</option>
-        <option>Action préventive</option>
-        <option>Action corrective</option>
-      </select>
-    </td>
-    <td><input type="text" placeholder="Nom"></td>
-    <td><input type="date"></td>
-    <td>
-      <select class="statut-select">
-        <option value="">— Statut —</option>
-        <option>🔴 Ouvert</option>
-        <option>🟡 En cours</option>
-        <option>🟢 Clôturé</option>
-      </select>
-    </td>`;
+    <td><input type="text" placeholder=""></td>
+    <td><input type="text" placeholder=""></td>
+    <td><input type="text" placeholder=""></td>
+    <td><input type="text" placeholder=""></td>`;
   tbody.appendChild(tr);
 }
 // Init with 3 rows
