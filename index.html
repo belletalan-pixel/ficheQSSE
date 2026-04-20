@@ -203,7 +203,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
     <div class="title">
       <h1>📋 FICHE QSSE — Déclaration d'événement</h1>
     </div>
-    <div class="meta">Réf. P024-A01-21<br>Rév. 21</div>
+    <div class="meta">Réf. P024-A01<br>Rév. 22</div>
   </div>
 
   <!-- ═══ 1. TYPE D'ÉVÉNEMENT ═══ -->
@@ -325,10 +325,10 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
     <table class="matrix-table">
       <thead>
         <tr>
-          <th style="width:28%">GRAVITÉ</th>
-          <th>QUALITÉ</th>
+          <th style="width:28%">QUALIÉ</th>
           <th>SÉCURITÉ</th>
           <th>SANTÉ</th>
+          <th>ENVIRONNEMENT</th>
           <th class="occ-col">PEU<br>PROB.</th>
           <th class="occ-col">POSS.</th>
           <th class="occ-col">CERT.</th>
@@ -336,7 +336,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
       </thead>
       <tbody>
         <tr>
-          <td><label class="cb-label"><input type="checkbox"> Inacceptable, impossibilité de répondre aux attentes</label></td>
+          <td>Inacceptable, impossibilité de répondre aux attentes</td>
           <td>Décès / Incapacité permanente totale</td>
           <td>Décès / Incapacité permanente / Maladie chronique</td>
           <td>Rejet non contenu avec conséquences irréversibles</td>
@@ -345,7 +345,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <td class="occ-col"><span class="badge badge-S">S</span></td>
         </tr>
         <tr>
-          <td><label class="cb-label"><input type="checkbox"> Acceptable si moyens importants mis en œuvre</label></td>
+          <td>Acceptable si moyens importants mis en œuvre</td>
           <td>Accident avec arrêt > 3 mois / Incapacité permanente partielle</td>
           <td>Arrêt > 3 mois / Incapacité permanente partielle</td>
           <td>Rejet non contenu avec conséquences durables</td>
@@ -354,7 +354,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <td class="occ-col"><span class="badge badge-S">S</span></td>
         </tr>
         <tr>
-          <td><label class="cb-label"><input type="checkbox"> Acceptable après dérogation</label></td>
+          <td>Acceptable après dérogation</td>
           <td>Accident avec arrêt &lt; 3 mois</td>
           <td>Maladie avec arrêt &lt; 3 mois</td>
           <td>Rejet non contenu avec conséquences temporaires</td>
@@ -363,7 +363,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <td class="occ-col"><span class="badge badge-S">S</span></td>
         </tr>
         <tr>
-          <td><label class="cb-label"><input type="checkbox"> Imperceptible après correction rapide</label></td>
+          <td>Imperceptible après correction rapide</td>
           <td>Premiers soins (infirmerie ou médecin)</td>
           <td>Premiers soins (infirmerie ou médecin)</td>
           <td>Rejet non contenu mais sans conséquence</td>
@@ -372,7 +372,7 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <td class="occ-col"><span class="badge badge-PS">PS</span></td>
         </tr>
         <tr>
-          <td><label class="cb-label"><input type="checkbox"> Imperceptible, pas de correction nécessaire</label></td>
+          <td>Imperceptible, pas de correction nécessaire</td>
           <td>Gêne passagère</td>
           <td>Gêne passagère</td>
           <td>Pas de rejet notable</td>
@@ -402,7 +402,6 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <label class="cb-label"><input type="checkbox"> Matériel</label>
           <label class="cb-label"><input type="checkbox"> Matière</label>
         </div>
-        <textarea rows="2" placeholder="Détail de la cause…"></textarea>
       </div>
       <div class="cause-col">
         <h4>CAUSE N°2 — Méthode des 6M</h4>
@@ -414,7 +413,6 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
           <label class="cb-label"><input type="checkbox"> Matériel</label>
           <label class="cb-label"><input type="checkbox"> Matière</label>
         </div>
-        <textarea rows="2" placeholder="Détail de la cause…"></textarea>
       </div>
     </div>
   </div>
@@ -438,13 +436,6 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
       </tbody>
     </table>
     <button onclick="addAction()" style="margin-top:6px; padding:4px 12px; background:#d6e4f0; border:1px solid #1f5c99; border-radius:3px; font-size:12px; cursor:pointer; color:#1f5c99; font-weight:700">+ Ajouter une action</button>
-  </div>
-
-  <!-- SIGNATURES -->
-  <div class="signatures">
-    Signature du déclarant : _______________________&emsp;&emsp;
-    Visa responsable QSSE : _______________________&emsp;&emsp;
-    Date de traitement : _______________
   </div>
 
 </div><!-- end .page -->
