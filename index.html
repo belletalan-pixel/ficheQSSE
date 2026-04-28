@@ -189,7 +189,6 @@ textarea { resize: vertical; min-height: 80px; border: 1.5px solid #d9d9d9; bord
 <div class="toolbar">
   <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
   <button class="btn btn-mail"  onclick="sendByMail()">📧 Envoyer par mail</button>
-  <button class="btn btn-save"  onclick="saveData()">💾 Sauvegarder</button>
   <button class="btn btn-reset" onclick="resetForm()">🗑️ Effacer</button>
 </div>
 
@@ -465,10 +464,10 @@ function addAction() {
   const tbody = document.getElementById('actions-body');
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td><input type="text" value="-"></td>
-    <td><input type="text" value="-"></td>
-    <td><input type="text" value="-"></td>
-    <td><input type="text" value="-"></td>`;
+    <td><input type="text" value="------"></td>
+    <td><input type="text" value="------"></td>
+    <td><input type="text" value="------"></td>
+    <td><input type="text" value="------"></td>`;
   tbody.appendChild(tr);
 }
 // Init with 3 rows
